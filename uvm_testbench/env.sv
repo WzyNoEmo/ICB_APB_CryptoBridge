@@ -47,10 +47,10 @@ package env;
             this.monitor_apb3 = new(1);
 
             this.icb_agent = new(this.monitor_icb);
-            this.apb_agent0 = new("channel_0");
-            this.apb_agent1 = new("channel_1");
-            this.apb_agent2 = new("channel_2");
-            this.apb_agent3 = new("channel_3");
+            this.apb_agent0 = new("channel_0", this.monitor_apb0);
+            this.apb_agent1 = new("channel_1", this.monitor_apb1);
+            this.apb_agent2 = new("channel_2", this.monitor_apb2);
+            this.apb_agent3 = new("channel_3", this.monitor_apb3);
             
             this.scoreboard = new(this.monitor_icb, this.monitor_apb0, this.monitor_apb1, this.monitor_apb2, this.monitor_apb3);
         endfunction //new()
@@ -87,99 +87,102 @@ package env;
             localparam  RDATA_ADDR = 32'h2000_0018;
             localparam  KEY_ADDR = 32'h2000_0020;
 
-            case (state)
-                "ICB Write Test": begin
-                    $display("=============================================================");
-                    $display("[TB- ENV ] Start work : ICB Write !");
+            fork
+                case (state)
+                    "ICB Write Test": begin
+                        $display("=============================================================");
+                        $display("[TB- ENV ] Start work : ICB Write !");
 
-                    $display("[TB- ENV ] Write CTRL register.");
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, CTRL_ADDR);
-                    this.scoreboard.verify_top();
-                    
-                    $display("[TB- ENV ] Write WDATA register for fifo depth.");
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0002, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0003, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0004, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0005, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0006, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0007, WDATA_ADDR);
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0008, WDATA_ADDR);
+                        $display("[TB- ENV ] Write CTRL register.");
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, CTRL_ADDR);
+                        
+                        $display("[TB- ENV ] Write WDATA register for fifo depth.");
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0002, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0003, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0004, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0005, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0006, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0007, WDATA_ADDR);
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0008, WDATA_ADDR);
 
-                    $display("[TB- ENV ] Write KEY register.");
-                    this.icb_agent.single_tran(1'b0, 8'hcc, 64'h1234_5678_9abc_def0, KEY_ADDR);     // mask = 8'b1100_1100
+                        $display("[TB- ENV ] Write KEY register.");
+                        this.icb_agent.single_tran(1'b0, 8'hcc, 64'h1234_5678_9abc_def0, KEY_ADDR);     // mask = 8'b1100_1100
 
-                    //TODO: rand
-                    $display("[TB- ENV ] Write random address.");
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, 32'h0000_0000);
-                end
+                        //TODO: rand
+                        $display("[TB- ENV ] Write random address.");
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, 32'h0000_0000);
+                    end
 
-                "ICB RAW Test": begin
-                    $display("=============================================================");
-                    $display("[TB- ENV ] Start work : ICB Read !");
+                    "ICB RAW Test": begin
+                        $display("=============================================================");
+                        $display("[TB- ENV ] Start work : ICB Read !");
 
-                    $display("[TB- ENV ] Write CTRL register.");
-                    this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, CTRL_ADDR);
-                    $display("[TB- ENV ] Read CTRL register.");
-                    this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, CTRL_ADDR);
+                        $display("[TB- ENV ] Write CTRL register.");
+                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, CTRL_ADDR);
+                        $display("[TB- ENV ] Read CTRL register.");
+                        this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, CTRL_ADDR);
 
-                    $display("[TB- ENV ] Write KEY register.");
-                    this.icb_agent.single_tran(1'b0, 8'hcc, 64'h1234_5678_9abc_def0, KEY_ADDR);     // mask = 8'b1100_1100
-                    $display("[TB- ENV ] Read KEY register.");
-                    this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, KEY_ADDR);
-                end
+                        $display("[TB- ENV ] Write KEY register.");
+                        this.icb_agent.single_tran(1'b0, 8'hcc, 64'h1234_5678_9abc_def0, KEY_ADDR);     // mask = 8'b1100_1100
+                        $display("[TB- ENV ] Read KEY register.");
+                        this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, KEY_ADDR);
+                    end
 
-                "APB Write":begin
-                    $display("=============================================================");
-                    $display("[TB- ENV ] Start work : APB Write !");
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 8'b00000110}, WDATA_ADDR);      // bus0 write addr 0000004
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
-                    fork
+                    "APB Write":begin
+                        $display("=============================================================");
+                        $display("[TB- ENV ] Start work : APB Write !");
+                        this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 8'b00000110}, WDATA_ADDR);      // bus0 write addr 0000004
+                        this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
+                        fork
+                            this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                            this.apb_agent1.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                            this.apb_agent2.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                            this.apb_agent3.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                        join_any
+                    end
+
+                    "APB Read":begin
+                        $display("=============================================================");
+                        $display("[TB- ENV ] Start work : APB Read !");
+                        this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
+                        fork
+                            this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                            this.apb_agent1.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                            this.apb_agent2.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                            this.apb_agent3.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                        join_any
+                    end
+
+
+                    "LOOPBACK Test":begin
+                        $display("=============================================================");
+                        this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 6'b000001,1'b1,1'b0}, WDATA_ADDR);      // bus0 write addr 0000004
+                        this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
                         this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        this.apb_agent1.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        this.apb_agent2.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        this.apb_agent3.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                    join_any
-                end
+                        this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
+                        this.apb_agent0.single_tran(32'haabb_ccdd);
+                        #20;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
+                        this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // bus0 write addr 0000004
+                    end
 
-                "APB Read":begin
-                    $display("=============================================================");
-                    $display("[TB- ENV ] Start work : APB Read !");
-                    this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
-                    fork
-                        this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        this.apb_agent1.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        this.apb_agent2.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        this.apb_agent3.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                    join_any
-                end
+                    "Time_Run": begin
+                        $display("[TB- ENV ] start work : Time_Run !");
+                        #100000;
+                        $display("[TB- ENV ] =========================================================================================");
+                        $display("[TB- ENV ]  _|_|_|_|_|   _|_|_|   _|      _|   _|_|_|_|         _|_|     _|    _|   _|_|_|_|_|  ");
+                        $display("[TB- ENV ]      _|         _|     _|_|  _|_|   _|             _|    _|   _|    _|       _|      ");
+                        $display("[TB- ENV ]      _|         _|     _|  _|  _|   _|_|_|         _|    _|   _|    _|       _|      ");
+                        $display("[TB- ENV ]      _|         _|     _|      _|   _|             _|    _|   _|    _|       _|      ");
+                        $display("[TB- ENV ]      _|       _|_|_|   _|      _|   _|_|_|_|         _|_|       _|_|         _|      ");
+                        $display("[TB- ENV ] =========================================================================================");
+                    end
+                    default: begin
+                    end
+                endcase
 
-
-                "LOOPBACK Test":begin
-                    $display("=============================================================");
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 8'b00000110}, WDATA_ADDR);      // bus0 write addr 0000004
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
-                    this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                    this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
-                    this.apb_agent0.single_tran(32'haabb_ccdd);
-                    #20;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
-                    this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // bus0 write addr 0000004
-                end
-
-                "Time_Run": begin
-                    $display("[TB- ENV ] start work : Time_Run !");
-                    #100000;
-                    $display("[TB- ENV ] =========================================================================================");
-                    $display("[TB- ENV ]  _|_|_|_|_|   _|_|_|   _|      _|   _|_|_|_|         _|_|     _|    _|   _|_|_|_|_|  ");
-                    $display("[TB- ENV ]      _|         _|     _|_|  _|_|   _|             _|    _|   _|    _|       _|      ");
-                    $display("[TB- ENV ]      _|         _|     _|  _|  _|   _|_|_|         _|    _|   _|    _|       _|      ");
-                    $display("[TB- ENV ]      _|         _|     _|      _|   _|             _|    _|   _|    _|       _|      ");
-                    $display("[TB- ENV ]      _|       _|_|_|   _|      _|   _|_|_|_|         _|_|       _|_|         _|      ");
-                    $display("[TB- ENV ] =========================================================================================");
-                end
-                default: begin
-                end
-            endcase
+                this.scoreboard.verify_top();       // 一直运行 !
+            join_any
         endtask
     endclass //env_ctrl
 endpackage

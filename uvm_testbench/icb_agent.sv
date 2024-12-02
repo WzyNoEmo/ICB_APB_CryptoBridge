@@ -218,13 +218,11 @@ package icb_agent_pkg;
             input [63:0]    data = 64'h0000_0000_0000_0000,
             input [31:0]    addr = 32'h2000_0000
         );
-            // generate data
+        
             this.icb_generator.data_gen(read, mask, data, addr);
 
             fork
-                // drive data
                 this.icb_driver.data_trans();
-                // monitor data
                 this.icb_monitor.mst_monitor( this.is_read );
             join_any
 

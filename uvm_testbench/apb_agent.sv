@@ -100,7 +100,12 @@ package apb_agent_pkg;
         // BUILD
         //=============================================================
         apb_trans monitor_trans;
-        function new();
+        mailbox #(apb_trans)    apb_monitor_data;
+
+        function new(
+            mailbox #(apb_trans)    apb_monitor_data
+        );
+            this.apb_monitor_data = apb_monitor_data;
             this.monitor_trans = new();
         endfunction //new()
 
@@ -151,7 +156,11 @@ package apb_agent_pkg;
 
         endtask
 
-    endclass //icb_monitor
+        task automatic monitor2scoreboard();
+            this.apb_monitor_data.put(this.monitor_trans);
+        endtask
+
+    endclass //apb_monitor
 
     // Agent: The top class that connects generator, driver and monitor
     class apb_agent;
@@ -159,18 +168,25 @@ package apb_agent_pkg;
         // BUILD
         //=============================================================
         string                  channel_id;
+
         mailbox #(apb_trans)    gen2drv;
+        mailbox #(apb_trans)    apb_monitor_data;
+
         apb_generator           apb_generator;
         apb_driver              apb_driver;
         apb_monitor             apb_monitor;
 
         bit                   is_read = 0;          // 记录一次 transaction 是读还是写，用于 monitor 打印
 
-        function new(string channel_id = "unknown");
+        function new(
+            string channel_id = "unknown",
+            mailbox #(apb_trans) monitor_apb
+        );
             this.gen2drv = new(1);
+            this.apb_monitor_data = monitor_apb;
             this.apb_generator = new(this.gen2drv);
             this.apb_driver = new(this.gen2drv);
-            this.apb_monitor = new();
+            this.apb_monitor = new(this.apb_monitor_data);
             this.channel_id = channel_id;
         endfunction //new()
 
@@ -189,14 +205,17 @@ package apb_agent_pkg;
         task automatic single_tran(
             input [31:0] rdata = 32'h0000_0000
         );
-            this.apb_monitor.mst_monitor(this.channel_id, this.is_read);     // 先监控 DUT 的 apb 主机行为
 
             this.apb_generator.data_gen(rdata);
+
+            this.apb_monitor.mst_monitor(this.channel_id, this.is_read);     // 先监控 DUT 的 apb 主机行为
 
             fork
                 this.apb_driver.data_trans();
                 this.apb_monitor.slv_monitor(this.channel_id, this.is_read);
             join
+
+            this.apb_monitor.monitor2scoreboard();
 
         endtask //automatic
     endclass //apb_agent
