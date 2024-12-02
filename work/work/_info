@@ -1,0 +1,298 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/wzy/Desktop/lab1_bk
+Yapb_bus
+Z0 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z1 !s110 1732865163
+!i10b 1
+!s100 o]>`gT=0=N_[NhlV29:0[0
+IV3g48^ZMc3NIk2e>J3lXo1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+!s105 apb_bus_sv_unit
+S1
+Z3 dC:/Users/wzy/Desktop/lab1/work
+w1730272774
+8C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv
+FC:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv
+L0 11
+Z4 OL;L;10.6c;65
+r1
+!s85 0
+31
+Z5 !s108 1732865163.000000
+!s107 C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv|
+!i113 0
+Z6 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z7 tCvgOpt 0
+vapb_master
+R0
+R1
+!i10b 1
+!s100 _O8zedn03?BJ5:WlhfWPH1
+IaJ>ADfRU<TKY0hm1Z16S63
+R2
+!s105 apb_master_sv_unit
+S1
+R3
+w1732016864
+8C:/Users/wzy/Desktop/lab1/design_files/module/apb_master.sv
+FC:/Users/wzy/Desktop/lab1/design_files/module/apb_master.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/wzy/Desktop/lab1/design_files/module/apb_master.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/module/apb_master.sv|
+!i113 0
+R6
+R7
+vapb_tb_read
+R0
+Z8 !s110 1732865166
+!i10b 1
+!s100 G[63V@U<_NbS`3POQTEUk1
+I`gCJb8^<O:cX2NhY6l1BC2
+R2
+!s105 apb_tb_read_sv_unit
+S1
+R3
+w1732019218
+8C:/Users/wzy/Desktop/lab1/testbench/apb_tb_read.sv
+FC:/Users/wzy/Desktop/lab1/testbench/apb_tb_read.sv
+L0 3
+R4
+r1
+!s85 0
+31
+Z9 !s108 1732865166.000000
+!s107 C:/Users/wzy/Desktop/lab1/testbench/apb_tb_read.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/testbench/apb_tb_read.sv|
+!i113 0
+R6
+R7
+vapb_tb_write
+R0
+R8
+!i10b 1
+!s100 gL]0GHG[j43ack8VINRPO1
+I<MKJHl_2JKl>KV6XY]`hU1
+R2
+!s105 apb_tb_write_sv_unit
+S1
+R3
+w1732017508
+8C:/Users/wzy/Desktop/lab1/testbench/apb_tb_write.sv
+FC:/Users/wzy/Desktop/lab1/testbench/apb_tb_write.sv
+L0 3
+R4
+r1
+!s85 0
+31
+R9
+!s107 C:/Users/wzy/Desktop/lab1/testbench/apb_tb_write.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/testbench/apb_tb_write.sv|
+!i113 0
+R6
+R7
+vdecrypt
+R0
+!s110 1732509111
+!i10b 1
+!s100 Z3hbJj5lT>>ZWeQRo:<gI3
+I4Y<OI=?S_`]h^Hmi8JPG[3
+R2
+!s105 decrypt_sv_unit
+S1
+R3
+w1732169246
+8C:/Users/wzy/Desktop/lab1/design_files/module/decrypt.sv
+FC:/Users/wzy/Desktop/lab1/design_files/module/decrypt.sv
+L0 1
+R4
+r1
+!s85 0
+31
+!s108 1732509111.000000
+!s107 C:/Users/wzy/Desktop/lab1/design_files/module/decrypt.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/module/decrypt.sv|
+!i113 0
+R6
+R7
+vdut_top
+R0
+R1
+!i10b 1
+!s100 0SPg8nMN3Q]2B6I`C2bNG1
+ICQBHL^Me379m_5YkQ9d8Z1
+R2
+!s105 top_sv_unit
+S1
+R3
+w1732515402
+8C:/Users/wzy/Desktop/lab1/design_files/top.sv
+FC:/Users/wzy/Desktop/lab1/design_files/top.sv
+L0 7
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/wzy/Desktop/lab1/design_files/top.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/top.sv|
+!i113 0
+R6
+R7
+vencrypt
+R0
+R8
+!i10b 1
+!s100 fQKB8jKH4I@WOKHiKgkzK2
+IKGdAZ3I^WHKgN`_X`EFMn1
+R2
+!s105 encrypt_sv_unit
+S1
+R3
+w1732515763
+8C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv
+FC:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R9
+!s107 C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv|
+!i113 0
+R6
+R7
+vfifo
+R0
+R8
+!i10b 1
+!s100 Sbo=Mg@bY8bXIkhgMIdaG0
+ITl3;S=lZnVXoIo6ISREGM3
+R2
+!s105 fifo_sv_unit
+S1
+R3
+w1732512734
+8C:/Users/wzy/Desktop/lab1/design_files/module/fifo.sv
+FC:/Users/wzy/Desktop/lab1/design_files/module/fifo.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R9
+!s107 C:/Users/wzy/Desktop/lab1/design_files/module/fifo.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/module/fifo.sv|
+!i113 0
+R6
+R7
+vfifo_tb
+R0
+Z10 !s110 1732865167
+!i10b 1
+!s100 SGXm3XGJ0fdOT5JfWPlN:0
+I7T^o@[QlL14fVjfY[d_z43
+R2
+!s105 fifo_tb_sv_unit
+S1
+R3
+w1732090269
+8C:/Users/wzy/Desktop/lab1/testbench/fifo_tb.sv
+FC:/Users/wzy/Desktop/lab1/testbench/fifo_tb.sv
+L0 3
+R4
+r1
+!s85 0
+31
+Z11 !s108 1732865167.000000
+!s107 C:/Users/wzy/Desktop/lab1/testbench/fifo_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/testbench/fifo_tb.sv|
+!i113 0
+R6
+R7
+Yicb_bus
+R0
+R1
+!i10b 1
+!s100 HJooN]NU13D:3DB_@F9zQ2
+Im[bKDio0AzVmfSD4AMVeh1
+R2
+!s105 icb_bus_sv_unit
+S1
+R3
+w1732513001
+8C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv
+FC:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv
+L0 13
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv|
+!i113 0
+R6
+R7
+vicb_slave
+R0
+R8
+!i10b 1
+!s100 hBQbgoV6d@Ab7l^S5iL0d2
+I9i2TUI<cjcG:n10OQ]49Y1
+R2
+!s105 icb_slave_sv_unit
+S1
+R3
+w1732515082
+8C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv
+FC:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R9
+!s107 C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv|
+!i113 0
+R6
+R7
+vicb_tb
+R0
+R10
+!i10b 1
+!s100 JbmKf5:KLdPNRCUO8CnLV0
+I6;5L^JP^iJ9G0H@XJg]Qm3
+R2
+!s105 icb_tb_sv_unit
+S1
+R3
+w1732103932
+8C:/Users/wzy/Desktop/lab1/testbench/icb_tb.sv
+FC:/Users/wzy/Desktop/lab1/testbench/icb_tb.sv
+L0 3
+R4
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/wzy/Desktop/lab1/testbench/icb_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/testbench/icb_tb.sv|
+!i113 0
+R6
+R7

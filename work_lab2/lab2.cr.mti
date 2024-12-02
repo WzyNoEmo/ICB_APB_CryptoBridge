@@ -1,0 +1,64 @@
+C:/Users/wzy/Desktop/lab1/uvm_testbench/dut.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/dut.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module dut
+
+Top level modules:
+	dut
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/module/fifo.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/module/fifo.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module fifo
+
+Top level modules:
+	fifo
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling interface apb_bus
+
+Top level modules:
+	--none--
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module icb_slave
+
+Top level modules:
+	icb_slave
+
+} {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/objects.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/objects.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling package objects_pkg
+
+Top level modules:
+	--none--
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module encrypt
+
+Top level modules:
+	encrypt
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/top.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/top.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module dut_top
+
+Top level modules:
+	dut_top
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/module/apb_master.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/module/apb_master.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module apb_master
+
+Top level modules:
+	apb_master
+
+} {} {}} C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling interface icb_bus
+
+Top level modules:
+	--none--
+
+} {} {}}
