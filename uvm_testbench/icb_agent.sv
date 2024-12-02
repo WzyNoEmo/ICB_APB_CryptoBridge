@@ -116,7 +116,12 @@ package icb_agent_pkg;
         // BUILD
         //=============================================================
         icb_trans monitor_trans;
-        function new();
+        mailbox #(icb_trans)    icb_monitor_data;
+
+        function new(
+            mailbox #(icb_trans)    icb_monitor_data 
+        );
+            this.icb_monitor_data = icb_monitor_data;
             this.monitor_trans = new();
         endfunction //new()
         // CONNECT
@@ -165,6 +170,10 @@ package icb_agent_pkg;
             end
         endtask
 
+        task automatic monitor2scoreboard();
+            this.icb_monitor_data.put(this.monitor_trans);
+        endtask
+
     endclass //icb_monitor
 
     // Agent: The top class that connects generator, driver and monitor
@@ -173,17 +182,22 @@ package icb_agent_pkg;
         // BUILD
         //=============================================================
         mailbox #(icb_trans)    gen2drv;
+        mailbox #(icb_trans)    icb_monitor_data;
+
         icb_generator           icb_generator;
         icb_driver              icb_driver;
         icb_monitor             icb_monitor;
 
-        bit                     is_read = 0;
+        bit                     is_read = 0;        // record the transaction is read or write
 
-        function new();
+        function new(
+            mailbox #(icb_trans)    monitor_icb
+        );
             this.gen2drv = new(1);
+            this.icb_monitor_data = monitor_icb;
             this.icb_generator = new(this.gen2drv);
             this.icb_driver = new(this.gen2drv);
-            this.icb_monitor = new();
+            this.icb_monitor = new(this.icb_monitor_data);
         endfunction //new()
 
         // CONNECT
@@ -215,6 +229,8 @@ package icb_agent_pkg;
             join_any
 
             this.icb_monitor.slv_monitor( this.is_read );
+
+            this.icb_monitor.monitor2scoreboard();
         
         endtask //automatic
     endclass //icb_agent

@@ -16,6 +16,7 @@ package env;
     import icb_agent_pkg::*;
     import apb_agent_pkg::*;
     import objects_pkg::*;
+    import scoreboard_pkg::*;
 
     class env_ctrl;
 
@@ -24,19 +25,34 @@ package env;
         // the new function is to build the class object's subordinates
 
         // first declare subordinates
+        mailbox #(icb_trans)    monitor_icb;
+        mailbox #(apb_trans)    monitor_apb0;
+        mailbox #(apb_trans)    monitor_apb1;
+        mailbox #(apb_trans)    monitor_apb2;
+        mailbox #(apb_trans)    monitor_apb3;
+
         icb_agent       icb_agent;
         apb_agent       apb_agent0;
         apb_agent       apb_agent1;
         apb_agent       apb_agent2;
         apb_agent       apb_agent3;
+        scoreboard      scoreboard;
 
         // new them
         function new();
-            this.icb_agent = new();
+            this.monitor_icb = new(1);
+            this.monitor_apb0 = new(1);
+            this.monitor_apb1 = new(1);
+            this.monitor_apb2 = new(1);
+            this.monitor_apb3 = new(1);
+
+            this.icb_agent = new(this.monitor_icb);
             this.apb_agent0 = new("channel_0");
             this.apb_agent1 = new("channel_1");
             this.apb_agent2 = new("channel_2");
             this.apb_agent3 = new("channel_3");
+            
+            this.scoreboard = new(this.monitor_icb, this.monitor_apb0, this.monitor_apb1, this.monitor_apb2, this.monitor_apb3);
         endfunction //new()
 
         // CONNECT
@@ -57,7 +73,6 @@ package env;
             this.apb_agent1.set_intf(apb1);
             this.apb_agent2.set_intf(apb2);
             this.apb_agent3.set_intf(apb3);
-            // ...
         endfunction
 
         // RUN
@@ -79,6 +94,7 @@ package env;
 
                     $display("[TB- ENV ] Write CTRL register.");
                     this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, CTRL_ADDR);
+                    this.scoreboard.verify_top();
                     
                     $display("[TB- ENV ] Write WDATA register for fifo depth.");
                     this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, WDATA_ADDR);
