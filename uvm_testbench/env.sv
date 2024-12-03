@@ -220,10 +220,12 @@ package env;
                 // Drive ICB master with randomized data
                 if (request_type) begin
                     $display("=============================== Random Write ==============================");
+                    $display("time : @ %t ns", $realtime/1000);
                     this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, ctrl_packet.wdata[31:8], channel_sel, 1'b1, 1'b0}, WDATA_ADDR);      // apb bus0 write addr 0000004
                     this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, data_packet.wdata[31:1], 1'b1}, WDATA_ADDR);                  // data 8 
                 end else begin
                     $display("=============================== Random Read ===============================");
+                    $display("time : @ %t ns", $realtime/1000);
                     this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, ctrl_packet.wdata[31:8], channel_sel, 1'b0, 1'b0}, WDATA_ADDR);      // apb bus0 read addr 0000004              // data 8 
                     #200;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
                     this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // icb read rdata
