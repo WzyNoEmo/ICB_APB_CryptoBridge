@@ -134,24 +134,14 @@ package env;
                         $display("[TB- ENV ] Start work : APB Write !");
                         this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 8'b00000110}, WDATA_ADDR);      // bus0 write addr 0000004
                         this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
-                        fork
-                            this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                            this.apb_agent1.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                            this.apb_agent2.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                            this.apb_agent3.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        join_any
+                        //this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
                     end
 
                     "APB Read":begin
                         $display("=============================================================");
                         $display("[TB- ENV ] Start work : APB Read !");
                         this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
-                        fork
-                            this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                            this.apb_agent1.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                            this.apb_agent2.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                            this.apb_agent3.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
-                        join_any
+                        //this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
                     end
 
 
@@ -159,10 +149,11 @@ package env;
                         $display("=============================================================");
                         this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 6'b000001,1'b1,1'b0}, WDATA_ADDR);      // bus0 write addr 0000004
                         this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
-                        this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                        //this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
+                        #200; 
                         this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
-                        this.apb_agent0.single_tran(32'haabb_ccdd);
-                        #20;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
+                        //this.apb_agent0.single_tran(32'haabb_ccdd);
+                        #200;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
                         this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // bus0 write addr 0000004
                     end
 
@@ -182,7 +173,12 @@ package env;
                 endcase
 
                 this.scoreboard.verify_top();       // 一直运行 !
-            join_any
+
+                this.apb_agent0.single_channel_agent(32'haabb_ccdd);   // apb write : no need for rdata
+                this.apb_agent1.single_channel_agent(32'haabb_ccdd);
+                this.apb_agent2.single_channel_agent(32'haabb_ccdd);
+                this.apb_agent3.single_channel_agent(32'haabb_ccdd);
+            join
         endtask
     endclass //env_ctrl
 endpackage

@@ -123,7 +123,7 @@ package apb_agent_pkg;
         //=============================================================
         task automatic mst_monitor(string channel_id = "unknown", ref bit is_read);
 
-            while(!this.monitor_channel.psel) begin
+            while(!(this.monitor_channel.psel && this.monitor_channel.penable)) begin
                 @(this.monitor_channel.mnt_cb);
             end
 
@@ -139,7 +139,9 @@ package apb_agent_pkg;
             end else begin
                 $display("APB Deocode : APB Master %s Write: Addr=%h, WData=%h",channel_id, this.monitor_trans.addr, this.monitor_trans.wdata);
             end
-            
+
+            @(this.monitor_channel.mnt_cb);
+
         endtask
 
         task automatic slv_monitor(string channel_id = "unknown", ref bit is_read);
@@ -153,6 +155,8 @@ package apb_agent_pkg;
             if(is_read) begin
                 $display("APB Slave %s Response : RData=%h",channel_id,this.monitor_trans.rdata);
             end 
+
+            @(this.monitor_channel.mnt_cb);
 
         endtask
 
@@ -202,20 +206,25 @@ package apb_agent_pkg;
 
         // FUN : single data tran
         //=============================================================
-        task automatic single_tran(
+        task automatic single_channel_agent(
             input [31:0] rdata = 32'h0000_0000
         );
 
-            this.apb_generator.data_gen(rdata);
-
-            this.apb_monitor.mst_monitor(this.channel_id, this.is_read);     // 先监控 DUT 的 apb 主机行为
+        while(1) begin
 
             fork
-                this.apb_driver.data_trans();
+                begin
+                    this.apb_generator.data_gen(rdata);
+                    this.apb_driver.data_trans();
+                    this.apb_monitor.monitor2scoreboard();
+                end
+                this.apb_monitor.mst_monitor(this.channel_id, this.is_read);     // 先监控 DUT 的 apb 主机行为
                 this.apb_monitor.slv_monitor(this.channel_id, this.is_read);
             join
 
-            this.apb_monitor.monitor2scoreboard();
+            // Avoid Infinite Loops
+            #1;
+        end
 
         endtask //automatic
     endclass //apb_agent

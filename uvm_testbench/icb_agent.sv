@@ -158,7 +158,7 @@ package icb_agent_pkg;
 
         task automatic slv_monitor(ref bit is_read);
 
-            //@(this.monitor_channel.mnt_cb)
+            @(this.monitor_channel.mnt_cb)
             while(!this.monitor_channel.icb_rsp_valid) begin
                 @(this.monitor_channel.mnt_cb);
             end
@@ -219,16 +219,16 @@ package icb_agent_pkg;
             input [31:0]    addr = 32'h2000_0000
         );
         
-            this.icb_generator.data_gen(read, mask, data, addr);
-
             fork
-                this.icb_driver.data_trans();
+                begin
+                    this.icb_generator.data_gen(read, mask, data, addr);
+                    this.icb_driver.data_trans();
+                    this.icb_monitor.monitor2scoreboard();
+                end
+
                 this.icb_monitor.mst_monitor( this.is_read );
+                this.icb_monitor.slv_monitor( this.is_read );   
             join_any
-
-            this.icb_monitor.slv_monitor( this.is_read );
-
-            this.icb_monitor.monitor2scoreboard();
         
         endtask //automatic
     endclass //icb_agent

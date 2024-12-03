@@ -23,6 +23,9 @@ package scoreboard_pkg;
         int             pass_cnt;
         int             total_cnt;
 
+        bit             icb_data_valid;
+        bit             apb_data_valid;
+
         function new(
             mailbox #(icb_trans)    monitor_icb,
             mailbox #(apb_trans)    monitor_apb0,
@@ -46,10 +49,11 @@ package scoreboard_pkg;
                 // get monitor data
                 if( this.monitor_icb.num() != 0 ) begin
                     this.monitor_icb.get(icb_data);
+                    this.icb_data_valid = 1;
                 end
 
                 // start to verify
-                if(icb_data.addr == 32'h2000_0010 && icb_data.read == 0) begin
+                if(this.icb_data_valid == 1 && icb_data.addr == 32'h2000_0010 && icb_data.read == 0) begin
                     this.behavior_verify(icb_data);
                 end
 
@@ -110,7 +114,7 @@ package scoreboard_pkg;
 
             // golden model: compare the icb packet & apb behavior
             this.golden_model(apb_data,ctrl_packet,data_packet);
-            
+            this.icb_data_valid = 0;
         endtask
 
         task automatic golden_model(
