@@ -147,14 +147,20 @@ package env;
 
                     "LOOPBACK Test":begin
                         $display("=============================================================");
-                        this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 6'b000001,1'b1,1'b0}, WDATA_ADDR);      // bus0 write addr 0000004
+                        $display("[TB- ENV ] Start work : LOOPBACK Test !");
+                        this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 24'h000004, 6'b000001,1'b1,1'b0}, WDATA_ADDR);      // apb bus0 write addr 0000004
                         this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, 31'h8, 1'b1}, WDATA_ADDR);                  // data 8 
                         //this.apb_agent0.single_tran(32'haabb_ccdd);   // apb write : no need for rdata
                         #200; 
-                        this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // bus0 read addr 0000004              // data 8 
+                        this.icb_agent.single_tran(1'b0, 8'h00, {24'h000004, 8'b00000100}, WDATA_ADDR);      // apb bus0 read addr 0000004              // data 8 
                         //this.apb_agent0.single_tran(32'haabb_ccdd);
                         #200;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
-                        this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // bus0 write addr 0000004
+                        this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // icb read rdata
+                    end
+
+                    "RANDOM Test":begin
+                        $display("========================== Random Test Start ! ===========================");
+                        this.random_test();
                     end
 
                     "Time_Run": begin
@@ -174,11 +180,58 @@ package env;
 
                 this.scoreboard.verify_top();       // 一直运行 !
 
-                this.apb_agent0.single_channel_agent(32'haabb_ccdd);   // apb write : no need for rdata
-                this.apb_agent1.single_channel_agent(32'haabb_ccdd);
-                this.apb_agent2.single_channel_agent(32'haabb_ccdd);
-                this.apb_agent3.single_channel_agent(32'haabb_ccdd);
+                this.apb_agent0.single_channel_agent();   // apb write : no need for rdata
+                this.apb_agent1.single_channel_agent();
+                this.apb_agent2.single_channel_agent();
+                this.apb_agent3.single_channel_agent();
             join
+        endtask
+
+        task random_test();
+
+            localparam  CTRL_ADDR = 32'h2000_0000;
+            localparam  STAT_ADDR = 32'h2000_0008;
+            localparam  WDATA_ADDR = 32'h2000_0010;
+            localparam  RDATA_ADDR = 32'h2000_0018;
+            localparam  KEY_ADDR = 32'h2000_0020;
+
+        // Randomization of test data
+            icb_trans ctrl_packet;
+            icb_trans data_packet;
+            bit request_type;
+            bit [5:0] channel_sel;
+            int case_cnt = 0;
+
+            ctrl_packet = new();
+            data_packet = new();
+
+            repeat (10) begin // Repeat the random test for 10 times
+
+                #($urandom_range(20, 100) * 10); // Random delay between 200ns to 1000ns        
+
+                channel_sel = 6'b010000;
+                channel_sel >>= $urandom_range(1, 4); // Random channel selection
+                
+                void'(ctrl_packet.randomize());
+                void'(data_packet.randomize());
+            
+                request_type = ctrl_packet.wdata[1] ; // 0 for read, 1 for write
+
+                // Drive ICB master with randomized data
+                if (request_type) begin
+                    $display("=============================== Random Write ==============================");
+                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, ctrl_packet.wdata[31:8], channel_sel, 1'b1, 1'b0}, WDATA_ADDR);      // apb bus0 write addr 0000004
+                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, data_packet.wdata[31:1], 1'b1}, WDATA_ADDR);                  // data 8 
+                end else begin
+                    $display("=============================== Random Read ===============================");
+                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, ctrl_packet.wdata[31:8], channel_sel, 1'b0, 1'b0}, WDATA_ADDR);      // apb bus0 read addr 0000004              // data 8 
+                    #200;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
+                    this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // icb read rdata
+                end
+            end
+
+            #200;       // Wait for the last transaction to complete
+            $display("========================== Random Test Finish ! ===========================");
         endtask
     endclass //env_ctrl
 endpackage

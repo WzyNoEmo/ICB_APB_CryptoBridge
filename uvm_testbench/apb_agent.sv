@@ -206,26 +206,26 @@ package apb_agent_pkg;
 
         // FUN : single data tran
         //=============================================================
-        task automatic single_channel_agent(
-            input [31:0] rdata = 32'h0000_0000
-        );
+        task automatic single_channel_agent();
 
-        while(1) begin
+            apb_trans random_trans;
+            random_trans = new();
+            
+            while(1) begin
 
-            fork
-                begin
-                    this.apb_generator.data_gen(rdata);
-                    this.apb_driver.data_trans();
-                    this.apb_monitor.monitor2scoreboard();
-                end
-                this.apb_monitor.mst_monitor(this.channel_id, this.is_read);     // 先监控 DUT 的 apb 主机行为
-                this.apb_monitor.slv_monitor(this.channel_id, this.is_read);
-            join
+                void'(random_trans.randomize());
+                fork
+                    begin
+                        this.apb_generator.data_gen(random_trans.rdata);
+                        this.apb_driver.data_trans();
+                        this.apb_monitor.monitor2scoreboard();
+                    end
+                    this.apb_monitor.mst_monitor(this.channel_id, this.is_read);     // 先监控 DUT 的 apb 主机行为
+                    this.apb_monitor.slv_monitor(this.channel_id, this.is_read);
+                join
 
-            // Avoid Infinite Loops
-            #1;
-        end
-
+                #1;
+            end
         endtask //automatic
     endclass //apb_agent
 endpackage

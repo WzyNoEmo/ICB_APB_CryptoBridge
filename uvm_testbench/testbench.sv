@@ -137,8 +137,8 @@ program testbench(
                 //envctrl.run("ICB RAW Test");                      // pass  
                 //envctrl.run("APB Write");                         // pass
                 //envctrl.run("APB Read");                          // pass
-                envctrl.run("LOOPBACK Test");                       // pass  
-                //envctrl.run("RANDOM Test");                         // pass
+                //envctrl.run("LOOPBACK Test");                       // pass  
+                envctrl.run("RANDOM Test");                         // pass
             end                // The testcase you want to run
             //envctrl.run("Time_Run");                       
         join_any

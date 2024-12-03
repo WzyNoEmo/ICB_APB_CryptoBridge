@@ -147,7 +147,7 @@ package scoreboard_pkg;
             end
 
             $display("|     Pass / Total : %d / %d        |" , this.pass_cnt,this.total_cnt);
-            $display("|     Pass Rate : %f                            |", this.pass_cnt/this.total_cnt);
+            $display("|     Pass Rate : %f%%                         |", this.pass_cnt/this.total_cnt * 100);
 
             $display("------------------------------------------------------");
         

@@ -12,17 +12,6 @@ QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 Top level modules:
 	fifo
 
-} {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/env.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/env.sv
-QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
--- Compiling package env
--- Importing package icb_agent_pkg
--- Importing package objects_pkg
--- Importing package apb_agent_pkg
--- Importing package scoreboard_pkg
-
-Top level modules:
-	--none--
-
 } {} {}} C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv
 QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 -- Compiling interface apb_bus
@@ -47,14 +36,6 @@ Top level modules:
 } {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_agent.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_agent.sv
 QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 -- Compiling package icb_agent_pkg
--- Importing package objects_pkg
-
-Top level modules:
-	--none--
-
-} {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/scoreboard.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/scoreboard.sv
-QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
--- Compiling package scoreboard_pkg
 -- Importing package objects_pkg
 
 Top level modules:
@@ -93,14 +74,6 @@ QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 
 Top level modules:
 	apb_master
-
-} {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_agent.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_agent.sv
-QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
--- Compiling package apb_agent_pkg
--- Importing package objects_pkg
-
-Top level modules:
-	--none--
 
 } {} {}} C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv
 QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
