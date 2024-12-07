@@ -12,6 +12,13 @@ QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 Top level modules:
 	--none--
 
+} {} {}} C:/Users/wzy/Desktop/lab1/testbench/des_tb.sv {1 {vlog -work work -vopt -sv -stats=none {C:\Users\wzy\Desktop\lab1\testbench\des_tb.sv}
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module des_tb
+
+Top level modules:
+	des_tb
+
 } {} {}} C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/module/icb_slave.sv
 QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 -- Compiling module icb_slave
@@ -39,13 +46,6 @@ QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 
 Top level modules:
 	icb_tb
-
-} {} {}} C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv
-QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
--- Compiling module encrypt
-
-Top level modules:
-	encrypt
 
 } {} {}} C:/Users/wzy/Desktop/lab1/design_files/top.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/design_files/top.sv
 QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
