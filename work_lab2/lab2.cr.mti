@@ -67,7 +67,7 @@ QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 Top level modules:
 	encrypt
 
-} {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv
+} {} {}} C:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv {1 {vlog -work work -vopt -sv -stats=none {C:\Users\wzy\Desktop\lab1\uvm_testbench\testbench.sv}
 QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
 -- Compiling module testbench_top
 -- Compiling program testbench
