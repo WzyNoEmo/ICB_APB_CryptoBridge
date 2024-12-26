@@ -1,0 +1,1 @@
+SVA SIM TCL CMD: vsim -gui -assertdebug work.testbench_top -novopt

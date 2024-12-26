@@ -4,9 +4,9 @@
 // the instance of the module of dut and program of testbench, even the
 // interface and some global signals. 'testbench' file control the total 
 // sim process, here add your command to ENV object.
-// Designer : lynnxie@sjtu.edu.cn
+// Designer : wangziyao1@sjtu.edu.cn
 // Revision History
-// V0 date:2024/11/07 Initial version, lynnxie@sjtu.edu.cn
+// V0 date:2024/11/07 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
 `timescale 1ns/1ps

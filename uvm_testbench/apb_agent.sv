@@ -2,9 +2,9 @@
 // Description:
 // This file realize the APB AGENT, includes data generator, driver and
 // monitor.
-// Designer : lynnxie@sjtu.edu.cn
+// Designer : wangziyao1@sjtu.edu.cn
 // Revision History
-// V0 date:2024/11/11 Initial version, lynnxie@sjtu.edu.cn
+// V0 date:2024/11/11 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
 `timescale 1ns/1ps
@@ -26,7 +26,6 @@ package apb_agent_pkg;
         endfunction //new()
 
         // FUNC : generate a data for transaction
-        // TODO: The random data generation can be realized here
         //=============================================================
         task automatic data_gen(
             input  [31:0]  rdata = 32'h0000_0000

@@ -1,9 +1,9 @@
 //=====================================================================
 // Description:
 // This file wraps the dut_top
-// Designer : lynnxie@sjtu.edu.cn
+// Designer : wangziyao1@sjtu.edu.cn
 // Revision History
-// V0 date:2024/11/13 Initial version, lynnxie@sjtu.edu.cn
+// V0 date:2024/11/13 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
 `timescale 1ns/1ps
@@ -28,5 +28,6 @@ module dut (
     );
 
 // other testbench modules if needed
+    binding_module i_binding_module();
     
 endmodule

@@ -1,9 +1,9 @@
 //=====================================================================
 // Description:
 // This file build the environment for the whole test environment
-// Designer : lynnxie@sjtu.edu.cn
+// Designer : wangziyao1@sjtu.edu.cn
 // Revision History
-// V0 date:2024/11/11 Initial version, lynnxie@sjtu.edu.cn
+// V0 date:2024/11/11 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
 `timescale 1ns/1ps
@@ -108,10 +108,6 @@ package env;
 
                         $display("[TB- ENV ] Write KEY register.");
                         this.icb_agent.single_tran(1'b0, 8'hcc, 64'h1234_5678_9abc_def0, KEY_ADDR);     // mask = 8'b1100_1100
-
-                        //TODO: rand
-                        $display("[TB- ENV ] Write random address.");
-                        this.icb_agent.single_tran(1'b0, 8'h00, 64'h0000_0000_0000_0001, 32'h0000_0000);
                     end
 
                     "ICB RAW Test": begin

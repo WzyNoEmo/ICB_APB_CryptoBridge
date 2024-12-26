@@ -1,9 +1,9 @@
 //=====================================================================
 // Description:
 // This file includes objects needed for the whole test environment
-// Designer : lynnxie@sjtu.edu.cn
+// Designer : wangziyao1@sjtu.edu.cn
 // Revision History
-// V0 date:2024/11/07 Initial version, lynnxie@sjtu.edu.cn
+// V0 date:2024/11/07 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
 `timescale 1ns/1ps

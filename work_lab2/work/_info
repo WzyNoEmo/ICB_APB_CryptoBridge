@@ -12,29 +12,52 @@ Xapb_agent_pkg
 Z0 !s115 apb_bus
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
 Z2 DXx4 work 11 objects_pkg 0 22 anAEzl2XH1Z^fK6^AenKk2
-Vl`H6I3]nW;MSCoBAH4nDB3
+V3KaoAd^PZe1ZoY58d0_5K2
 r1
 !s85 0
 31
 !i10b 1
-!s100 J15b<iEiG9lzWN?Gk>4i>1
-Il`H6I3]nW;MSCoBAH4nDB3
+!s100 hHaZc_WFWZUzCZYEkO^601
+I3KaoAd^PZe1ZoY58d0_5K2
 S1
 Z3 dC:/Users/wzy/Desktop/lab1/work_lab2
-w1733232137
+w1734350715
 8C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_agent.sv
 FC:/Users/wzy/Desktop/lab1/uvm_testbench/apb_agent.sv
 Z4 L0 12
 Z5 OL;L;10.6c;65
-Z6 !s108 1733900153.000000
+Z6 !s108 1734791282.000000
 !s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_agent.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_agent.sv|
 !i113 0
 Z7 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 Z8 tCvgOpt 0
-Yapb_bus
+vapb_assertion
 R1
 Z9 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
+!i10b 1
+!s100 YR5O2n3c_XTCG3W9oZga63
+I9Mm4XLnDlmCgIVzHZJ_l[0
+!s105 apb_assertion_sv_unit
+S1
+R3
+w1734791272
+8C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_assertion.sv
+FC:/Users/wzy/Desktop/lab1/uvm_testbench/apb_assertion.sv
+Z10 L0 11
+R5
+R6
+!s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_assertion.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/uvm_testbench/apb_assertion.sv|
+!i113 0
+R7
+R8
+Yapb_bus
+R1
+R9
 r1
 !s85 0
 31
@@ -47,9 +70,9 @@ R3
 w1732974828
 8C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv
 FC:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv
-Z10 L0 13
+Z11 L0 13
 R5
-!s108 1733900152.000000
+Z12 !s108 1734791281.000000
 !s107 C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/apb_bus.sv|
 !i113 0
@@ -108,15 +131,15 @@ r1
 !s85 0
 31
 !i10b 1
-!s100 YKIM;PzWoi6Wo=9A3[zmj3
-Ib;kkDR3C[TOGO28j95SG;0
+!s100 kD:LlcYEJ0`iQWEM5IGj`1
+IF94L53;?_PQGEJn[JBK`@3
 !s105 dut_sv_unit
 S1
 R3
-w1731516035
+w1734790975
 8C:/Users/wzy/Desktop/lab1/uvm_testbench/dut.sv
 FC:/Users/wzy/Desktop/lab1/uvm_testbench/dut.sv
-Z11 L0 11
+R10
 R5
 R6
 !s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/dut.sv|
@@ -141,7 +164,7 @@ w1732515402
 FC:/Users/wzy/Desktop/lab1/design_files/top.sv
 L0 7
 R5
-R6
+R12
 !s107 C:/Users/wzy/Desktop/lab1/design_files/top.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/top.sv|
 !i113 0
@@ -159,7 +182,7 @@ I]78Q0fiYIUXl5Z@]1Tbhl1
 !s105 encrypt_sv_unit
 S1
 R3
-w1733896054
+w1734674087
 8C:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv
 FC:/Users/wzy/Desktop/lab1/design_files/module/encrypt.sv
 L0 1
@@ -172,25 +195,25 @@ R7
 R8
 Xenv
 R0
-Z12 !s115 icb_bus
+Z13 !s115 icb_bus
 R1
 R2
-Z13 DXx4 work 13 icb_agent_pkg 0 22 R3?FD^H7hbkN<N@;G6>hX3
-Z14 DXx4 work 13 apb_agent_pkg 0 22 l`H6I3]nW;MSCoBAH4nDB3
-Z15 DXx4 work 14 scoreboard_pkg 0 22 Lh3eCD`hhGh5PC7HaNQEk0
-VgXg7ZGP?[SzC9JZom7gn>3
+Z14 DXx4 work 13 icb_agent_pkg 0 22 7m1jd8:4CDDI=0U`HDL9?1
+Z15 DXx4 work 13 apb_agent_pkg 0 22 3KaoAd^PZe1ZoY58d0_5K2
+Z16 DXx4 work 14 scoreboard_pkg 0 22 Lh3eCD`hhGh5PC7HaNQEk0
+V=75o1PzR10V3PeiS>TYIF2
 r1
 !s85 0
 31
 !i10b 1
-!s100 =boVNAdBha81;QBVDmd@f3
-IgXg7ZGP?[SzC9JZom7gn>3
+!s100 kV2FD7m]4lJERdNRFRLn60
+I=75o1PzR10V3PeiS>TYIF2
 S1
 R3
-w1733232929
+w1734350764
 8C:/Users/wzy/Desktop/lab1/uvm_testbench/env.sv
 FC:/Users/wzy/Desktop/lab1/uvm_testbench/env.sv
-Z16 L0 14
+Z17 L0 14
 R5
 R6
 !s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/env.sv|
@@ -222,19 +245,19 @@ R6
 R7
 R8
 Xicb_agent_pkg
-R12
+R13
 R1
 R2
-VR3?FD^H7hbkN<N@;G6>hX3
+V7m1jd8:4CDDI=0U`HDL9?1
 r1
 !s85 0
 31
 !i10b 1
-!s100 C@C57HNg_bFHG6o;]lUJ>2
-IR3?FD^H7hbkN<N@;G6>hX3
+!s100 c[zF?<Wz2DfGGIIUR=VTH2
+I7m1jd8:4CDDI=0U`HDL9?1
 S1
 R3
-w1733231482
+w1734350741
 8C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_agent.sv
 FC:/Users/wzy/Desktop/lab1/uvm_testbench/icb_agent.sv
 R4
@@ -242,6 +265,29 @@ R5
 R6
 !s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_agent.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_agent.sv|
+!i113 0
+R7
+R8
+vicb_assertion
+R1
+R9
+r1
+!s85 0
+31
+!i10b 1
+!s100 LU6f8joJ7ia4okRfoz6LO1
+I_Cabf9im>OEOOz2>]?aXa3
+!s105 icb_assertion_sv_unit
+S1
+R3
+w1734790037
+8C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_assertion.sv
+FC:/Users/wzy/Desktop/lab1/uvm_testbench/icb_assertion.sv
+R10
+R5
+R6
+!s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_assertion.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/uvm_testbench/icb_assertion.sv|
 !i113 0
 R7
 R8
@@ -260,9 +306,9 @@ R3
 w1732881556
 8C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv
 FC:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv
-R10
+R11
 R5
-R6
+R12
 !s107 C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/design_files/icb_bus.sv|
 !i113 0
@@ -305,7 +351,7 @@ R3
 w1731551721
 8C:/Users/wzy/Desktop/lab1/uvm_testbench/objects.sv
 FC:/Users/wzy/Desktop/lab1/uvm_testbench/objects.sv
-R11
+R10
 R5
 R6
 !s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/objects.sv|
@@ -339,28 +385,28 @@ R8
 4testbench
 R1
 R2
-R13
 R14
 R15
-DXx4 work 3 env 0 22 gXg7ZGP?[SzC9JZom7gn>3
+R16
+DXx4 work 3 env 0 22 =75o1PzR10V3PeiS>TYIF2
 R9
 r1
 !s85 0
 31
 !i10b 1
 !s100 Pd8T7I_TEODVoUQO9eg7z0
-I_0V<mzPPQB2g7NgJ?8]3X2
-Z17 !s105 testbench_sv_unit
+I@VD@e^500:n1JHGW83?z^1
+Z18 !s105 testbench_sv_unit
 S1
 R3
-Z18 w1733899821
-Z19 8C:\Users\wzy\Desktop\lab1\uvm_testbench\testbench.sv
-Z20 FC:\Users\wzy\Desktop\lab1\uvm_testbench\testbench.sv
+Z19 w1733899821
+Z20 8C:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv
+Z21 FC:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv
 L0 82
 R5
 R6
-Z21 !s107 C:\Users\wzy\Desktop\lab1\uvm_testbench\testbench.sv|
-Z22 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:\Users\wzy\Desktop\lab1\uvm_testbench\testbench.sv|
+Z22 !s107 C:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv|
+Z23 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/wzy/Desktop/lab1/uvm_testbench/testbench.sv|
 !i113 0
 R7
 R8
@@ -372,18 +418,18 @@ r1
 31
 !i10b 1
 !s100 hlYNKl:E2?]DX2oKmkAXY0
-INOAmf7R:E6;RgY`0QDTg73
-R17
+IHMMYm20g3TI3h]jI;;J;>2
+R18
 S1
 R3
-R18
 R19
 R20
-R16
+R21
+R17
 R5
 R6
-R21
 R22
+R23
 !i113 0
 R7
 R8
