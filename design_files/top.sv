@@ -66,8 +66,12 @@ apb_master u_apb_master(
     .wdata_vld(rfifo_wdata_vld_raw)         // to encrypt write data valid
 );
 
-//encrypt module
-encrypt u_encrypt(
+//encrypt module 
+// DES_TYPE: 0 for encrypt, 1 for decrypt
+encrypt u_encrypt #(
+    .DES_TYPE(1'b0)
+)
+(
     .clk(apb_bus_0.clk),
     .data({32'b0,rfifo_wdata_raw}),
     .data_vld(rfifo_wdata_vld_raw),
@@ -77,7 +81,10 @@ encrypt u_encrypt(
 );
 
 //decrypt module
-encrypt u_decrypt(
+encrypt u_decrypt #(
+    .DES_TYPE(1'b1)
+)
+(
     .clk(icb_bus.clk),
     .data(wfifo_wdata_raw),
     .data_vld(wfifo_wdata_vld_raw),
