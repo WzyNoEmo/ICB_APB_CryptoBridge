@@ -7,8 +7,6 @@
 // V0 date:2024/11/11 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
-// `define DES
-
 `timescale 1ns/1ps
 
 package scoreboard_pkg;

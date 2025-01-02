@@ -27,7 +27,8 @@ module dut (
         .apb_bus_3(     apb3.master     )
     );
 
-// other testbench modules if needed
+`ifdef SVA
     binding_module i_binding_module();
+`endif
     
 endmodule

@@ -1,4 +1,5 @@
-`define DECRYPT
+`define ENCRYPT
+//`define DECRYPT
 
 module des_tb;
     logic clk;
@@ -38,9 +39,9 @@ module des_tb;
         .result(result),
         .result_vld(result_vld)
     );
+`endif
 
-`else
-
+`ifdef DECRYPT
     initial begin
         clk = 1'b0;
         data_vld <= 1'b0;
@@ -62,7 +63,6 @@ module des_tb;
         .result(result),
         .result_vld(result_vld)
     );
-
 `endif
 
 endmodule
