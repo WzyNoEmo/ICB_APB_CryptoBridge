@@ -1,3 +1,5 @@
+`include "../../define.sv" 
+
 module encrypt #(
     parameter DES_TYPE = 1'b1
 )

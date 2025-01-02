@@ -23,4 +23,14 @@ package objects_pkg;
         rand logic [31:0]   wdata;
         rand logic [31:0]   rdata;
     endclass // apb_trans
+
+    class random_stimulus;
+        rand logic [23:0]   addr;
+        rand logic [30:0]   wdata;
+        rand logic          write;
+        rand logic [5:0]    channel_sel;
+        constraint constrs {
+            channel_sel inside {6'b000001, 6'b000010, 6'b000100, 6'b001000};
+        }
+    endclass
 endpackage

@@ -1,4 +1,4 @@
-`define ENCRYPT
+`define DECRYPT
 //`define DECRYPT
 
 module des_tb;
@@ -46,9 +46,9 @@ module des_tb;
         clk = 1'b0;
         data_vld <= 1'b0;
         #100;
-        data <= 64'b0101100000001000001100000000101111001101110101100001100001101000;
+        data <= 64'h70823258694567a8;
         data_vld <= 1'b1;
-        key <=  64'b0001001100110100010101110111100110011011101111001101111111110001;
+        key <=  64'h1234_5678_9abc_def0;
         #10;
         data_vld <= 1'b0;
     end

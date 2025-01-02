@@ -9,9 +9,6 @@
 // V0 date:2024/11/07 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
-// `define DES
-// `define SVA
-
 `timescale 1ns/1ps
 
 module testbench_top ();

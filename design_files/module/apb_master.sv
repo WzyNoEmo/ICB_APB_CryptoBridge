@@ -77,7 +77,7 @@ module apb_master(
                 next_state = DECODE_CTRL_PACK;
             end
             DECODE_CTRL_PACK: begin
-                if ( pack_write ) begin               // apb_write
+                if ( pack_write | pack_write_reg ) begin               // apb_write
                     if ( !empty ) begin
                         next_state = READ_DATA_PACK;      // wait for fifo not empty
                     end else begin

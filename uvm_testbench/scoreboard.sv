@@ -6,11 +6,12 @@
 // Revision History
 // V0 date:2024/11/11 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
-
+`include "../define.sv"
 `timescale 1ns/1ps
 
 package scoreboard_pkg;
     import objects_pkg::*;
+    import encrypt_verify_pkg::*;
 
     class scoreboard;
 
@@ -70,33 +71,48 @@ package scoreboard_pkg;
         // step 1. icb packet -> des result
         // step 2. verify des result & apb behavior
 
-        logic [31:0]            ctrl_packet = icb_data.wdata;
-        logic [31:0]            data_packet;
-        logic [31:0]            ctrl_packet_encrypt;
-        logic [31:0]            data_packet_encrypt;
+        logic [0:63]            ctrl_packet_icb = icb_data.wdata;
+        logic [0:63]            data_packet_icb;
+        logic [0:63]            ctrl_packet_decrypt;
+        logic [0:63]            data_packet_decrypt;
+        logic [31:0]            ctrl_packet_decrypt_32;
+        logic [31:0]            data_packet_decrypt_32;
 
         apb_trans              apb_dri;
         apb_dri = new();
 
         // STEP 1
-            // encrypt ctrl packet
-            ctrl_packet_encrypt = this.encrypt(ctrl_packet);
+            // decrypt ctrl packet
+            `ifdef DES
+                ctrl_packet_decrypt = des_decrypt(ctrl_packet_icb,64'h1234_5678_9abc_def0);
+            `else
+                ctrl_packet_decrypt = ctrl_packet_icb;
+            `endif
+            ctrl_packet_decrypt_32 = ctrl_packet_decrypt[32:63];
+            //$display("ctrl_packet_icb = %h  ctrl_packet_decrypt = %h", ctrl_packet_icb, ctrl_packet_decrypt);
 
-            // ctrl_packet_encrypt[1] -> apb write -> get data packet
-            if(ctrl_packet_encrypt[1] == 1) begin      //apb write need wait for data packet
+            // ctrl_packet_decrypt[1] -> apb write -> get data packet
+            if(ctrl_packet_decrypt_32[1] == 1) begin      //apb write need wait for data packet
                 while(this.monitor_icb.num() == 0) begin
                     #1;
                 end;
                 this.monitor_icb.get(icb_data);
-                data_packet = icb_data.wdata;
+                data_packet_icb = icb_data.wdata;
             end
 
-            // encrypt data packet
-            data_packet_encrypt = this.encrypt(data_packet);
+            // decrypt data packet
+            `ifdef DES
+                data_packet_decrypt = des_decrypt(data_packet_icb,64'h1234_5678_9abc_def0);
+            `else
+                data_packet_decrypt = data_packet_icb;
+            `endif
+            data_packet_decrypt_32 = data_packet_decrypt[32:63];
+            //$display("ctrl_packet_decrypt_32 = %h  data_packet_decrypt_32 = %h", ctrl_packet_decrypt_32, data_packet_decrypt_32);
+
 
         // STEP 2
-            // apb behavior
-            case(ctrl_packet_encrypt[7:2])
+            // apb behavior verify
+            case(ctrl_packet_decrypt_32[7:2])
                 6'b000001: begin
                     while(this.monitor_apb0.num() == 0) begin
                         #1;
@@ -126,7 +142,7 @@ package scoreboard_pkg;
                 end
             endcase
 
-            this.behavior_verify(apb_dri,ctrl_packet_encrypt,data_packet_encrypt);
+            this.behavior_verify(apb_dri,ctrl_packet_decrypt_32,data_packet_decrypt_32);
             this.icb_data_valid = 0;
         endtask
 
@@ -165,19 +181,6 @@ package scoreboard_pkg;
             $display("------------------------------------------------------");
         
         endtask
-
-        function logic [31:0] encrypt(
-            logic [31:0] data
-        );
-
-            logic [31:0] result;
-            
-            // no encrypt
-            return data;
-
-            // des encrypt
-
-        endfunction
 
     endclass //scoreboard
 

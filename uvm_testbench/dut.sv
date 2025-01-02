@@ -5,7 +5,7 @@
 // Revision History
 // V0 date:2024/11/13 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
-
+`include "../define.sv"
 `timescale 1ns/1ps
 
 module dut (

@@ -5,7 +5,7 @@
 // Revision History
 // V0 date:2024/11/11 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
-
+`include "../define.sv"
 `timescale 1ns/1ps
 
 // ATTENTION: mailbox only records handler, therefore, scoreboard and read/write should be parallel, 
@@ -17,6 +17,7 @@ package env;
     import apb_agent_pkg::*;
     import objects_pkg::*;
     import scoreboard_pkg::*;
+    import encrypt_verify_pkg::*;
 
     class env_ctrl;
 
@@ -191,44 +192,59 @@ package env;
             localparam  RDATA_ADDR = 32'h2000_0018;
             localparam  KEY_ADDR = 32'h2000_0020;
 
-        // Randomization of test data
-            icb_trans ctrl_packet;
-            icb_trans data_packet;
             bit request_type;
-            bit [5:0] channel_sel;
-            int case_cnt = 0;
+            logic [63:0] ctrl_packet_raw;
+            logic [63:0] data_packet_raw;
+            logic [63:0] ctrl_packet_true; 
+            logic [63:0] data_packet_true;
 
-            ctrl_packet = new();
-            data_packet = new();
+        // Randomization of test data
+            random_stimulus input_stimulus;
+            input_stimulus = new();
+
+        
+        // MUST WRITE KEY AND EQUAL TO DES KEY
+            $display("[TB- ENV ] Write KEY register.");
+            this.icb_agent.single_tran(1'b0, 8'h00, 64'h1234_5678_9abc_def0, KEY_ADDR);     // mask = 8'b1100_1100
 
             repeat (10) begin // Repeat the random test for 10 times
 
                 #($urandom_range(20, 100) * 10); // Random delay between 200ns to 1000ns        
 
-                channel_sel = 6'b010000;
-                channel_sel >>= $urandom_range(1, 4); // Random channel selection
-                
-                void'(ctrl_packet.randomize());
-                void'(data_packet.randomize());
-            
-                request_type = ctrl_packet.wdata[1] ; // 0 for read, 1 for write
+                // Randomize the test data
+                void'(input_stimulus.randomize());
+                request_type = input_stimulus.write;
+
+                ctrl_packet_raw = {32'b0, input_stimulus.addr, input_stimulus.channel_sel, input_stimulus.write, 1'b0};
+                data_packet_raw = {32'b0, input_stimulus.wdata, 1'b1};
+
+                `ifdef DES
+                    ctrl_packet_true = des_encrypt(ctrl_packet_raw,64'h1234_5678_9abc_def0);
+                    data_packet_true = des_encrypt(data_packet_raw,64'h1234_5678_9abc_def0);
+                `else
+                    ctrl_packet_true = ctrl_packet_raw;
+                    data_packet_true = data_packet_raw;
+                `endif
+                //$display("ctrl_packet_raw = %h", ctrl_packet_raw);
+                //$display("ctrl_packet_true = %h", ctrl_packet_true);
 
                 // Drive ICB master with randomized data
                 if (request_type) begin
                     $display("=============================== Random Write ==============================");
                     $display("time : @ %t ns", $realtime/1000);
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, ctrl_packet.wdata[31:8], channel_sel, 1'b1, 1'b0}, WDATA_ADDR);      // apb bus0 write addr 0000004
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, data_packet.wdata[31:1], 1'b1}, WDATA_ADDR);                  // data 8 
+                    this.icb_agent.single_tran(1'b0, 8'h00, ctrl_packet_true, WDATA_ADDR);     // random addr & random channel 
+                    #320;   // Attention : decrypt need 16 cycle !!!!!! SO U CANT SENT DATA BAG IMMEDIATELY
+                    this.icb_agent.single_tran(1'b0, 8'h00, data_packet_true, WDATA_ADDR);                        // random data
                 end else begin
                     $display("=============================== Random Read ===============================");
                     $display("time : @ %t ns", $realtime/1000);
-                    this.icb_agent.single_tran(1'b0, 8'h00, {32'b0, ctrl_packet.wdata[31:8], channel_sel, 1'b0, 1'b0}, WDATA_ADDR);      // apb bus0 read addr 0000004              // data 8 
+                    this.icb_agent.single_tran(1'b0, 8'h00, ctrl_packet_true, WDATA_ADDR);     // random addr & random channel 
                     #200;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
                     this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // icb read rdata
                 end
             end
 
-            #200;       // Wait for the last transaction to complete
+            #500;       // Wait for the last transaction to complete
             $display("========================== Random Test Finish ! ===========================");
         endtask
     endclass //env_ctrl

@@ -68,9 +68,9 @@ apb_master u_apb_master(
 
 //encrypt module 
 // DES_TYPE: 0 for encrypt, 1 for decrypt
-encrypt u_encrypt #(
+encrypt #(
     .DES_TYPE(1'b0)
-)
+) u_encrypt
 (
     .clk(apb_bus_0.clk),
     .data({32'b0,rfifo_wdata_raw}),
@@ -81,9 +81,9 @@ encrypt u_encrypt #(
 );
 
 //decrypt module
-encrypt u_decrypt #(
+encrypt #(
     .DES_TYPE(1'b1)
-)
+) u_decrypt
 (
     .clk(icb_bus.clk),
     .data(wfifo_wdata_raw),
