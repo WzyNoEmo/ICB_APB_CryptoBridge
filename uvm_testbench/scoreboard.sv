@@ -7,6 +7,8 @@
 // V0 date:2024/11/11 Initial version, wangziyao1@sjtu.edu.cn
 //=====================================================================
 
+// `define DES
+
 `timescale 1ns/1ps
 
 package scoreboard_pkg;
@@ -24,7 +26,7 @@ package scoreboard_pkg;
         int             total_cnt;
 
         bit             icb_data_valid;
-        bit             apb_data_valid;
+        bit             apb_dri_valid;
 
         function new(
             mailbox #(icb_trans)    monitor_icb,
@@ -54,7 +56,7 @@ package scoreboard_pkg;
 
                 // start to verify
                 if(this.icb_data_valid == 1 && icb_data.addr == 32'h2000_0010 && icb_data.read == 0) begin
-                    this.behavior_verify(icb_data);
+                    this.golden_model(icb_data);
                 end
 
                 // Avoid Infinite Loops
@@ -62,18 +64,28 @@ package scoreboard_pkg;
             end
         endtask      
 
-        task automatic behavior_verify(
+        task automatic golden_model(
             icb_trans icb_data
         );
 
-            logic [31:0]            ctrl_packet = icb_data.wdata;
-            logic [31:0]            data_packet;
+        // golden model: 
+        // step 1. icb packet -> des result
+        // step 2. verify des result & apb behavior
 
-            apb_trans              apb_data;
-            apb_data = new();
+        logic [31:0]            ctrl_packet = icb_data.wdata;
+        logic [31:0]            data_packet;
+        logic [31:0]            ctrl_packet_encrypt;
+        logic [31:0]            data_packet_encrypt;
 
-            // icb packet
-            if(ctrl_packet[1] == 1) begin      //apb write need wait for data packet
+        apb_trans              apb_dri;
+        apb_dri = new();
+
+        // STEP 1
+            // encrypt ctrl packet
+            ctrl_packet_encrypt = this.encrypt(ctrl_packet);
+
+            // ctrl_packet_encrypt[1] -> apb write -> get data packet
+            if(ctrl_packet_encrypt[1] == 1) begin      //apb write need wait for data packet
                 while(this.monitor_icb.num() == 0) begin
                     #1;
                 end;
@@ -81,53 +93,56 @@ package scoreboard_pkg;
                 data_packet = icb_data.wdata;
             end
 
+            // encrypt data packet
+            data_packet_encrypt = this.encrypt(data_packet);
+
+        // STEP 2
             // apb behavior
-            case(ctrl_packet[7:2])
+            case(ctrl_packet_encrypt[7:2])
                 6'b000001: begin
                     while(this.monitor_apb0.num() == 0) begin
                         #1;
                     end;
-                    this.monitor_apb0.get(apb_data);
+                    this.monitor_apb0.get(apb_dri);
                 end
                 6'b000010: begin
                     while(this.monitor_apb1.num() == 0) begin
                         #1;
                     end;
-                    this.monitor_apb1.get(apb_data);
+                    this.monitor_apb1.get(apb_dri);
                 end
                 6'b000100: begin
                     while(this.monitor_apb2.num() == 0) begin
                         #1;
                     end;
-                    this.monitor_apb2.get(apb_data);
+                    this.monitor_apb2.get(apb_dri);
                 end
                 6'b001000: begin
                     while(this.monitor_apb3.num() == 0) begin
                         #1;
                     end;
-                    this.monitor_apb3.get(apb_data);
+                    this.monitor_apb3.get(apb_dri);
                 end
                 default: begin
                     $display("Invalid Channel ID , SCOREBOARD ERROR");
                 end
             endcase
 
-            // golden model: compare the icb packet & apb behavior
-            this.golden_model(apb_data,ctrl_packet,data_packet);
+            this.behavior_verify(apb_dri,ctrl_packet_encrypt,data_packet_encrypt);
             this.icb_data_valid = 0;
         endtask
 
-        task automatic golden_model(
-            apb_trans apb_data,
+        task automatic behavior_verify(
+            apb_trans apb_dri,
             logic [31:0] ctrl_packet,
             logic [31:0] data_packet
         );
             $display("---------------------golden model---------------------");
 
             //$display("ctrl_packet = %h  data_packet = %h", ctrl_packet, data_packet);
-            //$display("apb_data.addr = %h  apb_data.wdata = %h", apb_data.addr, apb_data.wdata);
+            //$display("apb_dri.addr = %h  apb_dri.wdata = %h", apb_dri.addr, apb_dri.wdata);
             if( ctrl_packet[1] == 1 ) begin
-                if( apb_data.addr == {8'b0,ctrl_packet[31:8]} && apb_data.wdata == {1'b0,data_packet[31:1]} ) begin
+                if( apb_dri.addr == {8'b0,ctrl_packet[31:8]} && apb_dri.wdata == {1'b0,data_packet[31:1]} ) begin
                     $display("|     APB Write Success !                             |");
                     this.pass_cnt++;
                     this.total_cnt++;
@@ -136,7 +151,7 @@ package scoreboard_pkg;
                     this.total_cnt++;
                 end
             end else begin
-                if( apb_data.addr == {8'b0,ctrl_packet[31:8]} ) begin
+                if( apb_dri.addr == {8'b0,ctrl_packet[31:8]} ) begin
                     $display("|     APB Read Success !                              |");
                     this.pass_cnt++;
                     this.total_cnt++;
@@ -152,6 +167,19 @@ package scoreboard_pkg;
             $display("------------------------------------------------------");
         
         endtask
+
+        function logic [31:0] encrypt(
+            logic [31:0] data
+        );
+
+            logic [31:0] result;
+            
+            // no encrypt
+            return data;
+
+            // des encrypt
+
+        endfunction
 
     endclass //scoreboard
 

@@ -1,3 +1,5 @@
+// `define DES
+
 module encrypt #(
     parameter DES_TYPE = 1'b1
 )
@@ -17,12 +19,8 @@ module encrypt #(
     output logic result_vld
 );
 
-// no encrypt
-// assign result = data;
-// assign result_vld = data_vld;
+`ifdef DES
 
-
-// algorithm : ----------------------------------------des------------------------------------------
     logic [0:63] data_ip;
     logic [0:55] key_pc1;
     logic [0:27] key_c, key_d;
@@ -190,7 +188,14 @@ endfunction
         end
     end
 
- 
+    // DES_TYPE = 0 : 加密  DES_TYPE = 1 : 解密
+
+    // 解密 -> 子密钥逆序：
+    // 加密左移位数(round):   1  1  2  2  2  2  2  2  1  2  2  2  2  2  2  1
+    // 加密左移位数(total):   1  2  4  6  8  10 12 14 15 17 19 21 23 25 27 28
+    // 解密左移位数(total)：  28 27 25 23 21 19 17 15 14 12 10  8  6  4  2  1
+    // round:                0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
+
     always_ff @( posedge clk ) begin
         if ( data_vld == 1'b1 ) begin
             if(DES_TYPE == 1'b0) begin
@@ -245,27 +250,11 @@ endfunction
         end
     end
 
-//解密
-    // 子密钥逆序：
-    // 加密左移位数(round):   1  1  2  2  2  2  2  2  1  2  2  2  2  2  2  1
-    // 加密左移位数(total):   1  2  4  6  8  10 12 14 15 17 19 21 23 25 27 28
-    // 解密左移位数(total)：  28 27 25 23 21 19 17 15 14 12 10  8  6  4  2  1
-    // round:                0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-    // always_ff @( posedge clk ) begin
-    //     if ( data_vld == 1'b1 ) begin
-    //         key_c <= {key_pc1[0:27]};
-    //         key_d <= {key_pc1[28:55]};
-    //     end else if ( data_vld_reg == 1'b1 ) begin
-    //         if ( round == 4'd0 || round == 4'd7 || round == 4'd14 ) begin       
-    //             key_c <= { key_c[27], key_c[0:26] };                        //变成右移即可
-    //             key_d <= { key_d[27], key_d[0:26]};
-    //         end else begin
-    //             key_c <= { key_c[26:27], key_c[0:25] };
-    //             key_d <= { key_d[26:27], key_d[0:25] };
-    //         end
-    //     end
-    // end
+`else
 
-//------------------------------------------------------------------------------------------------------------
+    assign result = data;
+    assign result_vld = data_vld;
+
+`endif
 
 endmodule

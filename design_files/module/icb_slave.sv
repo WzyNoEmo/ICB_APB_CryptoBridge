@@ -34,7 +34,7 @@ module icb_slave(
 //  读写寄存器（ rdata / wdata ）被直接映射到fifo端口
 
     logic [7:0] control;
-    logic [7:0] state;      // state[0] wfifo full, state[1] rfifo empty 、
+    logic [7:0] state;
 
 //  icb_bus
 
@@ -168,8 +168,5 @@ module icb_slave(
             rfifo_data_vld <= rdata_en;
         end
     end
-
-
-// TODO : STATE 与  CONTROL
 
 endmodule
