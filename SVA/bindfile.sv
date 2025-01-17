@@ -1,29 +1,29 @@
 module binding_module();
 
-    // bind dut_top icb_assertion icb_assertion_bind_dut_top
-    // (
-    //     .icb(           icb.monitor      )
-    // );
+    bind dut_top icb_assertion icb_assertion_bind_dut_top
+    (
+        .icb(           icb.monitor      )
+    );
 
-    // bind dut_top apb_assertion #(.channel_id(0)) apb0_assertion_bind_dut_top
-    // (
-    //     .apb(           apb0.monitor     )
-    // );
+    bind dut_top apb_assertion #(.channel_id(0)) apb0_assertion_bind_dut_top
+    (
+        .apb(           apb0.monitor     )
+    );
 
-    // bind dut_top apb_assertion #(.channel_id(1)) apb1_assertion_bind_dut_top
-    // (
-    //     .apb(           apb1.monitor     )
-    // );
+    bind dut_top apb_assertion #(.channel_id(1)) apb1_assertion_bind_dut_top
+    (
+        .apb(           apb1.monitor     )
+    );
 
-    // bind dut_top apb_assertion #(.channel_id(2)) apb2_assertion_bind_dut_top
-    // (
-    //     .apb(           apb2.monitor     )
-    // );
+    bind dut_top apb_assertion #(.channel_id(2)) apb2_assertion_bind_dut_top
+    (
+        .apb(           apb2.monitor     )
+    );
 
-    // bind dut_top apb_assertion #(.channel_id(3)) apb3_assertion_bind_dut_top
-    // (
-    //     .apb(           apb3.monitor     )
-    // );
+    bind dut_top apb_assertion #(.channel_id(3)) apb3_assertion_bind_dut_top
+    (
+        .apb(           apb3.monitor     )
+    );
 
 
     // fifo type : 0 RFIFO 1 WFIFO
