@@ -171,6 +171,7 @@ package icb_agent_pkg;
 
         task automatic monitor2scoreboard();
             this.icb_monitor_data.put(this.monitor_trans);
+            // $display("scb success");
         endtask
 
     endclass //icb_monitor

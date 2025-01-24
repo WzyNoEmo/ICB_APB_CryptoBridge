@@ -21,6 +21,9 @@ package scoreboard_pkg;
         mailbox #(apb_trans)    monitor_apb2;
         mailbox #(apb_trans)    monitor_apb3;
 
+        bit             behavior_pass;
+        bit             data_pass; 
+
         int             pass_cnt;
         int             total_cnt;
 
@@ -67,7 +70,7 @@ package scoreboard_pkg;
             icb_trans icb_data
         );
 
-        // golden model: 
+        // Golden Model model: 
         // step 1. icb packet -> des result
         // step 2. verify des result & apb behavior
 
@@ -109,9 +112,8 @@ package scoreboard_pkg;
             data_packet_decrypt_32 = data_packet_decrypt[32:63];
             //$display("ctrl_packet_decrypt_32 = %h  data_packet_decrypt_32 = %h", ctrl_packet_decrypt_32, data_packet_decrypt_32);
 
-
         // STEP 2
-            // apb behavior verify
+            // apb behavior
             case(ctrl_packet_decrypt_32[7:2])
                 6'b000001: begin
                     while(this.monitor_apb0.num() == 0) begin
@@ -142,8 +144,17 @@ package scoreboard_pkg;
                 end
             endcase
 
+            // verify
+
             this.behavior_verify(apb_dri,ctrl_packet_decrypt_32,data_packet_decrypt_32);
+            this.data_verify(apb_dri,ctrl_packet_decrypt_32);
+            this.score();
+
+            //reset
             this.icb_data_valid = 0;
+            this.behavior_pass = 0;
+            this.data_pass = 0;
+
         endtask
 
         task automatic behavior_verify(
@@ -151,35 +162,69 @@ package scoreboard_pkg;
             logic [31:0] ctrl_packet,
             logic [31:0] data_packet
         );
-            $display("---------------------golden model---------------------");
 
-            //$display("ctrl_packet = %h  data_packet = %h", ctrl_packet, data_packet);
-            //$display("apb_dri.addr = %h  apb_dri.wdata = %h", apb_dri.addr, apb_dri.wdata);
+            // $display("ctrl_packet = %h  data_packet = %h", ctrl_packet, data_packet);
+            // $display("apb_dri.rdata = %h ", apb_dri.rdata);
             if( ctrl_packet[1] == 1 ) begin
                 if( apb_dri.addr == {8'b0,ctrl_packet[31:8]} && apb_dri.wdata == {1'b0,data_packet[31:1]} ) begin
-                    $display("|     APB Write Success !                             |");
-                    this.pass_cnt++;
-                    this.total_cnt++;
+                    $display("[Golden Model] Behavior Verify : APB Write Success !");
+                    this.behavior_pass = 1;
                 end else begin
-                    $display("|     APB Write Failed !                              |");
-                    this.total_cnt++;
+                    $display("[Golden Model] Behavior Verify : APB Write Failed !");
+                    this.behavior_pass = 0;
                 end
             end else begin
                 if( apb_dri.addr == {8'b0,ctrl_packet[31:8]} ) begin
-                    $display("|     APB Read Success !                              |");
-                    this.pass_cnt++;
-                    this.total_cnt++;
+                    $display("[Golden Model] Behavior Verify : APB Read Success !");
+                    this.behavior_pass = 1;
                 end else begin
-                    $display("|     APB Read Failed !                               |");
-                    this.total_cnt++;
+                    $display("[Golden Model] Behavior Verify : APB Read Failed !");
+                    this.behavior_pass = 0;
                 end
             end
+        
+        endtask
 
+        task automatic data_verify(
+            apb_trans apb_dri,
+            logic [31:0] ctrl_packet
+        );
+
+        logic [31:0] apb_rdata = apb_dri.rdata;
+        icb_trans              icb_rdata;
+        icb_rdata = new();
+
+        if (ctrl_packet[1] == 1) begin
+            this.data_pass = 1;
+            return;
+        end
+
+        while(this.monitor_icb.num() == 0) begin
+            #1;
+        end;
+        this.monitor_icb.get(icb_rdata);
+
+        // start to verify
+        if(icb_rdata.addr == 32'h2000_0018 && icb_rdata.read == 1 && icb_rdata.rdata == des_encrypt({32'b0,apb_rdata},64'h1234_5678_9abc_def0)) begin
+            $display("[Golden Model] Data Verify : Read Data Right !");
+            this.data_pass = 1;
+        end else begin
+            $display("[Golden Model] Data Verify : Read Data Wrong !");
+            this.data_pass = 0;
+        end
+
+        endtask
+
+        task automatic score();
+            this.total_cnt++;
+
+            if(this.behavior_pass == 1 && this.data_pass == 1) begin
+                this.pass_cnt++;
+            end
+            $display("--------------------- [SCOREBOARD] --------------------");
             $display("|     Pass / Total : %d / %d        |" , this.pass_cnt,this.total_cnt);
             $display("|     Pass Rate : %f%%                         |", this.pass_cnt/this.total_cnt * 100);
-
             $display("------------------------------------------------------");
-        
         endtask
 
     endclass //scoreboard

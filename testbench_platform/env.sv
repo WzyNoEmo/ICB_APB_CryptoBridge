@@ -233,14 +233,16 @@ package env;
                     $display("=============================== Random Write ==============================");
                     $display("time : @ %t ns", $realtime/1000);
                     this.icb_agent.single_tran(1'b0, 8'h00, ctrl_packet_true, WDATA_ADDR);     // random addr & random channel 
-                    #320;   // Attention : decrypt need 16 cycle !!!!!! SO U CANT SENT DATA BAG IMMEDIATELY
+                    #500;   // Attention : decrypt need 16 cycle !!!!!! SO U CANT SENT DATA BAG IMMEDIATELY
                     this.icb_agent.single_tran(1'b0, 8'h00, data_packet_true, WDATA_ADDR);                        // random data
+                    #500;
                 end else begin
                     $display("=============================== Random Read ===============================");
                     $display("time : @ %t ns", $realtime/1000);
                     this.icb_agent.single_tran(1'b0, 8'h00, ctrl_packet_true, WDATA_ADDR);     // random addr & random channel 
-                    #200;   // 由于异步时钟设计打了两拍，数据写入后 empty 信号等两周期才会拉低 
+                    #500;
                     this.icb_agent.single_tran(1'b1, 8'h00, 64'h0000_0000_0000_0000, RDATA_ADDR);      // icb read rdata
+                    #500;
                 end
             end
 

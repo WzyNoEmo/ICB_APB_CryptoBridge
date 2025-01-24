@@ -5,7 +5,7 @@ SVA : bindfile 连接验证平台进行 assertion
 
 testbench : 单模块验证
 
-uvm_testbench : 完整验证平台
+testbench_platform : 完整验证平台
 
 define.sv : 启用 DES / 启用 SVA 
 
