@@ -111,10 +111,10 @@ function logic [0:63] f_encryption( logic [0:63] data_ip, logic [0:47] subkey);
     logic [0:31] data_s, data_p;
     logic [0:31] data_r;
 
-    assign data_r = data_ip[32:63];
+    data_r = data_ip[32:63];
 
     // step 1 : expansion permutation
-    assign data_ep = {
+    data_ep = {
     data_r[31], data_r[0],  data_r[1],  data_r[2],  data_r[3],  data_r[4],
     data_r[3],  data_r[4],  data_r[5],  data_r[6],  data_r[7],  data_r[8],
     data_r[7],  data_r[8],  data_r[9],  data_r[10], data_r[11], data_r[12],
@@ -126,17 +126,17 @@ function logic [0:63] f_encryption( logic [0:63] data_ip, logic [0:47] subkey);
     };
 
     // step 2 : key mixing
-    assign data_km = data_ep ^ subkey;
+    data_km = data_ep ^ subkey;
 
     // step 3 : substitution
 
-    assign data_s = {
+    data_s = {
     sbox1[{data_km[0], data_km[5]}][{data_km[1:4]}], sbox2[{data_km[6], data_km[11]}][{data_km[7:10]}], sbox3[{data_km[12], data_km[17]}][{data_km[13:16]}], sbox4[{data_km[18], data_km[23]}][{data_km[19:22]}],
     sbox5[{data_km[24], data_km[29]}][{data_km[25:28]}], sbox6[{data_km[30], data_km[35]}][{data_km[31:34]}], sbox7[{data_km[36], data_km[41]}][{data_km[37:40]}], sbox8[{data_km[42], data_km[47]}][{data_km[43:46]}]
     };
 
     // step 4 : permutation
-    assign data_p = {
+    data_p = {
     data_s[15], data_s[6],  data_s[19], data_s[20], data_s[28], data_s[11], data_s[27], data_s[16],
     data_s[0],  data_s[14], data_s[22], data_s[25], data_s[4],  data_s[17], data_s[30], data_s[9],
     data_s[1],  data_s[7],  data_s[23], data_s[13], data_s[31], data_s[26], data_s[2],  data_s[8],
