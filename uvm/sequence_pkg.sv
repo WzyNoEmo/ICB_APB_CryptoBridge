@@ -143,6 +143,119 @@ package sequence_pkg;
         endtask
     endclass
 
+    class icb_raw_sequence extends uvm_sequence #(apb_trans);
+        
+        `uvm_object_utils(icb_raw_sequence)
+        
+
+        function new(string name = "icb_raw_sequence");
+            super.new(name);
+        endfunction
+
+        virtual task body();
+            icb_trans tx;
+
+            tx = new();
+
+            #500;
+
+            // all reg raw
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0001;
+                tx.addr = CTRL_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b1;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = CTRL_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'hcc;
+                tx.wdata = 64'h1234_5678_9abc_def0;
+                tx.addr = KEY_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b1;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = KEY_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h2510_bda9_1976_44b4;
+                tx.addr = WDATA_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b1;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = WDATA_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'hcc;
+                tx.wdata = 64'h1234_5678_9abc_def0;
+                tx.addr = RDATA_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b1;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = RDATA_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'hcc;
+                tx.wdata = 64'h1234_5678_9abc_def0;
+                tx.addr = STAT_ADDR;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b1;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = STAT_ADDR;
+            finish_item(tx);
+
+            // invalid raw
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0001;
+                tx.addr = 32'hFFFF_FFFF;
+            finish_item(tx);
+
+            start_item(tx);
+                tx.read = 1'b1;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = 32'hFFFF_FFFF;
+            finish_item(tx);
+
+            // shutdown
+            start_item(tx);
+                tx.read = 1'b0;
+                tx.mask = 8'h00;
+                tx.wdata = 64'h0000_0000_0000_0000;
+                tx.addr = CTRL_ADDR;
+            finish_item(tx);
+            
+        endtask
+    endclass
+
     class apb_read_sequence extends uvm_sequence #(apb_trans);
         apb_trans tx;
         `uvm_object_utils(apb_read_sequence)

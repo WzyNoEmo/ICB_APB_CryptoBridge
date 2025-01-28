@@ -7,9 +7,13 @@ testbench : 单模块验证
 
 testbench_platform : 完整验证平台
 
+uvm : UVM验证平台
+
 define.sv : 启用 DES / 启用 SVA 
 
 doc_helps / guide / report : 设计指导与报告
+
+vivado : vivado资源时序报告
 
 
 ## 验证框架

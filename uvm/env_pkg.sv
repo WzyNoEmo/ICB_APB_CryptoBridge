@@ -4,6 +4,7 @@ package env_pkg;
     import apb_agent_pkg::*;
     import scoreboard_pkg::*;
     import sequence_pkg::*;
+    import subscriber_pkg::*;
     import uvm_pkg::*;
     `include "uvm_macros.svh"
 
@@ -24,6 +25,11 @@ package env_pkg;
         apb_agent apb_agt_2;
         apb_agent apb_agt_3;
         my_model mdl;
+        icb_subscriber icb_sub;
+        apb_subscriber apb_sub_0;
+        apb_subscriber apb_sub_1;
+        apb_subscriber apb_sub_2;
+        apb_subscriber apb_sub_3;
 
         uvm_tlm_analysis_fifo #(icb_trans) icb_agt_mdl_fifo;
         uvm_tlm_analysis_fifo #(apb_trans) apb_0_agt_mdl_fifo;
@@ -43,6 +49,11 @@ package env_pkg;
             apb_agt_2 = apb_agent::type_id::create("apb_agt_2", this);
             apb_agt_3 = apb_agent::type_id::create("apb_agt_3", this);
             mdl = my_model::type_id::create("mdl", this);
+            icb_sub = icb_subscriber::type_id::create("icb_sub", this);
+            apb_sub_0 = apb_subscriber::type_id::create("apb_sub_0", this);
+            apb_sub_1 = apb_subscriber::type_id::create("apb_sub_1", this);
+            apb_sub_2 = apb_subscriber::type_id::create("apb_sub_2", this);
+            apb_sub_3 = apb_subscriber::type_id::create("apb_sub_3", this);
 
             icb_agt_mdl_fifo = new("icb_agt_mdl_fifo", this);
             apb_0_agt_mdl_fifo = new("apb_0_agt_mdl_fifo", this);
@@ -63,6 +74,12 @@ package env_pkg;
             mdl.apb_2_bgp.connect(apb_2_agt_mdl_fifo.blocking_get_export);
             apb_agt_3.apb_ap.connect(apb_3_agt_mdl_fifo.analysis_export);
             mdl.apb_3_bgp.connect(apb_3_agt_mdl_fifo.blocking_get_export);
+
+            icb_agt.icb_ap.connect(icb_sub.analysis_export);
+            apb_agt_0.apb_ap.connect(apb_sub_0.analysis_export);
+            apb_agt_1.apb_ap.connect(apb_sub_1.analysis_export);
+            apb_agt_2.apb_ap.connect(apb_sub_2.analysis_export);
+            apb_agt_3.apb_ap.connect(apb_sub_3.analysis_export);
         endfunction
     
     endclass
@@ -84,15 +101,18 @@ package env_pkg;
 
         task run_phase(uvm_phase phase);
 
-            apb_read_write_sequence test_seq;
+            apb_read_write_sequence test_seq1;
+            icb_raw_sequence test_seq2;
 
-            test_seq = apb_read_write_sequence::type_id::create("test_seq", this);
+            test_seq1 = apb_read_write_sequence::type_id::create("test_seq1", this);
+            test_seq2 = icb_raw_sequence::type_id::create("test_seq2", this);
 
             phase.phase_done.set_drain_time(this, 1000);
 
             phase.raise_objection(this);
 
-            test_seq.start(env.icb_agt.icb_sqr);  
+            test_seq1.start(env.icb_agt.icb_sqr);  
+            test_seq2.start(env.icb_agt.icb_sqr);
 
             phase.drop_objection(this);
 
